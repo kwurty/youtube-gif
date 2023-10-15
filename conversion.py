@@ -30,5 +30,6 @@ class Conversions:
         self.moviePyFile = VideoFileClip(self.videoLocation, audio=False)
 
     def exportGif(self):
+        print(self.startTime, self.clipLength)
         self.clip = self.moviePyFile.subclip(self.startTime, self.startTime + self.clipLength).resize(0.3)
-        self.clip.write_gif("E:\Programming\youtube-gif\output.gif", program='ffmpeg')
+        self.clip.write_gif("output.gif")
