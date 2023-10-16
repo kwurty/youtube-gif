@@ -35,7 +35,7 @@ async def add(ctx, left: int, right: int):
     await ctx.send(left + right)
 
 @bot.command()
-async def gif(ctx, url: str, time: str, length:int = 3):
+async def gif(ctx, url: str, time: str, length:int = 3, message:str = ""):
 
     match = re.match("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$", url)
     if not match:
@@ -68,9 +68,14 @@ async def gif(ctx, url: str, time: str, length:int = 3):
     conversion.find720p()
     conversion.downloadVideo()
     conversion.setClipLocation()
+    if len(message) > 0:
+        conversion.addText(message)
     conversion.exportGif()
-    
-    await ctx.send(file=discord.File(conversion.videoLocation))
+
+    with open(conversion.videoLocation, 'rb') as f:
+        picture = discord.File(conversion.gifLocation)
+        await ctx.send(file=picture)
+    # await ctx.send(file=discord.File(conversion.videoLocation))
 
 
 
